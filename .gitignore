@@ -4,11 +4,24 @@
 .mtj.tmp/
 
 # Package Files #
-*.jar
 *.war
 *.ear
+*.zip
 
 # virtual machine crash logs, see http://www.java.com/en/download/help/error_hotspot.xml
 hs_err_pid*
 
-_site/
+.idea
+.idea/*
+*.iml
+
+build/
+build/*
+
+.gradle
+.gradle/*
+
+
+#ignore configurations they are specific to the environment
+*.bat
+**/*.bat

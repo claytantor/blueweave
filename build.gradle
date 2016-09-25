@@ -1,0 +1,64 @@
+group 'com.dronze'
+version '1.0-SNAPSHOT'
+
+ext {
+    log4jVersion = '2.4.1'
+}
+
+apply plugin: 'java'
+
+configurations.all {
+    resolutionStrategy {
+        force 'com.fasterxml.jackson.core:jackson-core:2.6.5'
+        force 'com.fasterxml.jackson.core:jackson-annotations:2.6.5'
+        force 'com.fasterxml.jackson.core:jackson-databind:2.6.5'
+        force 'com.fasterxml.jackson.dataformat:jackson-dataformat-yaml:2.6.5'
+    }
+}
+
+
+sourceCompatibility = 1.8
+
+repositories {
+    mavenCentral()
+}
+
+dependencies {
+
+    compile 'io.airlift:airline:0.7'
+
+    compile group: 'javax.mail', name: 'mail', version: '1.4.7'
+    compile group: 'commons-io', name: 'commons-io', version: '2.5'
+    compile 'com.github.spullara.mustache.java:compiler:0.8.18'
+
+    compile 'com.fasterxml.jackson.core:jackson-core:2.6.5'
+    compile 'com.fasterxml.jackson.core:jackson-annotations:2.6.5'
+    compile 'com.fasterxml.jackson.core:jackson-databind:2.6.5'
+    compile 'com.fasterxml.jackson.dataformat:jackson-dataformat-yaml:2.6.5'
+    compile 'com.google.code.gson:gson:2.4'
+    compile 'org.apache.commons:commons-csv:1.2'
+
+    //database
+    compile 'org.mongodb:mongo-java-driver:3.0.4'
+
+
+    //deep learning
+    compile ('org.deeplearning4j:deeplearning4j-core:0.5.0') {
+        exclude group: "org.bytedeco.javacpp-presets"
+        exclude group: "com.fasterxml.jackson.core"
+        exclude group: "com.fasterxml.jackson.dataformat"
+    }
+
+    compile "org.nd4j:nd4j-native-platform:0.5.0"
+    compile "org.nd4j:nd4j-jackson:0.5.0"
+
+    compile ('org.apache.spark:spark-core_2.10:2.0.0'){
+        exclude group: "com.fasterxml.jackson.core"
+        exclude group: "com.fasterxml.jackson.dataformat"
+    }
+    compile 'org.datavec:datavec-spark_2.10:0.5.0'
+
+    testCompile group: 'junit', name: 'junit', version: '4.11'
+}
+
+
