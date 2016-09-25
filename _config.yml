@@ -1,0 +1,57 @@
+# SEO settings
+title: "blueweave"
+title2: "sequences" # default: ""
+description: "its sewquences"
+keywords: "java, cloud, deep learning"
+url: http://claytantor.github.io/blueweave # site url
+baseurl: null # apply repo name if use it under gh-pages branch
+# baseurl: null # apply null if repo name is something like username.github.io
+
+google_analytics: UA-XXXXX-XX
+repo: http://github.com/claytantor/blueweave
+disqus_shortname: "claytantor"
+twitter_username: "claytantor"
+comments: true
+
+# Build settings
+permalink   : /:year/:title/
+markdown    : kramdown
+highlighter : rouge
+
+source: ./
+destination: ./_site
+
+# Sass configuration
+sass:
+  sass_dir: assets/scss
+  style: compressed # expanded
+
+# Author settings
+author:
+  name     : "Clay Graham"
+  job      : "Doer"
+  bio      : "This is my github site to post articles that I am interested in technically."
+  thumb    : /images/author.jpg
+  email    : claytantor@gmail.com
+  url      : http://claytantor.com
+  github   : http://github.com/claytantor
+  twitter  : http://twitter.com/claytantor
+  linkedin : http://linkedin.com/in/claytantor
+
+# social settings
+og_locale: "en_US"
+twitter_card: "summary_large_image"
+twitter_site: "@claytantor"
+
+gems:
+  - bourbon
+  - jekyll-paginate
+
+# navbar pages
+navbar:
+  - slug : about
+    title: About
+  - slug : blog
+    title: Blog
+
+exclude: ["gulp", "node_modules", "bower", "bower_components", "config.rb", "src", "Gemfile", "Gemfile.lock", ".rvmrc", ".rbenv-version", "package.json", "gulpfile.js", "README.md", "Rakefile", "changelog.md", "vendor"]
