@@ -2,12 +2,12 @@
     "docs": [
         {
             "location": "/", 
-            "text": "Blueweave\n\n\nBlueweave is a Java framework for recurrent sequential deep learning networks using\n guava and deeplearning4j.\n\n\n\n\nBasics\n - Your first API call, and the basic concepts behind the API.\n\n\nCore API\n - Tickers and Historical Measures on indicators derived from fundamentals.\n\n\n\n\nCore API\n\n\n\n\nSequences\n - Tickers represent companies available to get information on.\n\n\nMeasures\n - Measures are available recorded or derived values for a specific day.", 
+            "text": "Blueweave\n\n\nBlueweave is a Java framework for recurrent sequential deep learning networks using\n guava and deeplearning4j.\n\n\n\n\n\n\nBasics\n - Your first API call, and the basic concepts behind the API.\n\n\nCore API\n - Tickers and Historical Measures on indicators derived from fundamentals.\n\n\n\n\nCore API\n\n\n\n\nSequences\n - Tickers represent companies available to get information on.\n\n\nMeasures\n - Measures are available recorded or derived values for a specific day.", 
             "title": "Home"
         }, 
         {
             "location": "/#blueweave", 
-            "text": "Blueweave is a Java framework for recurrent sequential deep learning networks using\n guava and deeplearning4j.   Basics  - Your first API call, and the basic concepts behind the API.  Core API  - Tickers and Historical Measures on indicators derived from fundamentals.", 
+            "text": "Blueweave is a Java framework for recurrent sequential deep learning networks using\n guava and deeplearning4j.    Basics  - Your first API call, and the basic concepts behind the API.  Core API  - Tickers and Historical Measures on indicators derived from fundamentals.", 
             "title": "Blueweave"
         }, 
         {
