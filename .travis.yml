@@ -5,7 +5,7 @@ before_script:
 
 # Assume bundler is being used, therefore
 # the `install` step will run `bundle install` by default.
-script: ./script/cibuild.sh
+script: ./scripts/cibuild.sh
 
 # branch whitelist, only build branches we code
 branches:
