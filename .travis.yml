@@ -1,2 +1,14 @@
 language: java
-script: travisbuild.sh
+
+before_script:
+ - chmod +x ./scripts/cibuild # or do this locally and commit
+
+# Assume bundler is being used, therefore
+# the `install` step will run `bundle install` by default.
+script: ./script/cibuild
+
+# branch whitelist, only build branches we code
+branches:
+  only:
+  - feature/(.*)     # test the feature branches
+  - master
