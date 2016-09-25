@@ -1,0 +1,14 @@
+site_name: Dronze REST API
+site_dir: ../docs
+theme: cinder
+pages:
+- Home: index.md
+# - User Guide:
+#     - 'Basics': 'user-guide/basics.md'
+#     - 'Authentication': 'user-guide/auth.md'
+#     - 'Core API': 'user-guide/core.md'
+#     - 'User Data': 'user-guide/userdata.md'
+# - API Docs:
+#     - 'Tickers V1': 'api/rest-tickers-v1.md'
+#     - 'Measures V1': 'api/rest-measures-v1.md'
+#     - 'Accounts V1': 'api/rest-accounts-v1.md'
