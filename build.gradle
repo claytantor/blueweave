@@ -1,11 +1,12 @@
 group 'com.dronze'
-version '1.0-SNAPSHOT'
+version '1.0.1-SNAPSHOT'
 
 ext {
     log4jVersion = '2.4.1'
 }
 
 apply plugin: 'java'
+apply plugin: 'maven'
 
 configurations.all {
     resolutionStrategy {
