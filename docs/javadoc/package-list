@@ -1,0 +1,7 @@
+com.dronze.blueweave.component
+com.dronze.blueweave.json
+com.dronze.blueweave.json.deserialize
+com.dronze.blueweave.json.serialize
+com.dronze.blueweave.model
+com.dronze.blueweave.provider
+com.dronze.blueweave.util
