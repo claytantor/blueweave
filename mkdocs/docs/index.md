@@ -6,7 +6,7 @@ Blueweave is a Java framework for recurrent sequential deep learning networks us
 ![build_status](https://api.travis-ci.org/claytantor/blueweave.svg?branch=master "Master Build Status")
 
 
-* [Java Docs](/javadocs/) - The generated java docs.
+* [Java Docs](/javadoc/) - The generated java docs.
 * [Basics](/user-guide/basics/) - Your first API call, and the basic concepts behind the API.
 * [Core API](/user-guide/core/) - Tickers and Historical Measures on indicators derived from fundamentals.
 
