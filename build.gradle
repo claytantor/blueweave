@@ -1,5 +1,5 @@
 group 'com.dronze'
-version '1.0.1-SNAPSHOT'
+version '0.5.0-SNAPSHOT'
 
 ext {
     log4jVersion = '2.4.1'
@@ -27,7 +27,6 @@ dependencies {
 
     compile 'io.airlift:airline:0.7'
 
-    compile group: 'javax.mail', name: 'mail', version: '1.4.7'
     compile group: 'commons-io', name: 'commons-io', version: '2.5'
     compile 'com.github.spullara.mustache.java:compiler:0.8.18'
 
@@ -36,11 +35,6 @@ dependencies {
     compile 'com.fasterxml.jackson.core:jackson-databind:2.6.5'
     compile 'com.fasterxml.jackson.dataformat:jackson-dataformat-yaml:2.6.5'
     compile 'com.google.code.gson:gson:2.4'
-    compile 'org.apache.commons:commons-csv:1.2'
-
-    //database
-    compile 'org.mongodb:mongo-java-driver:3.0.4'
-
 
     //deep learning
     compile ('org.deeplearning4j:deeplearning4j-core:0.5.0') {
@@ -59,6 +53,11 @@ dependencies {
     compile 'org.datavec:datavec-spark_2.10:0.5.0'
 
     testCompile group: 'junit', name: 'junit', version: '4.11'
+}
+
+task javadocs(type: Javadoc) {
+    source = sourceSets.main.allJava
+    destinationDir = file("${project.docsDir}/javadoc")
 }
 
 
