@@ -1,11 +1,9 @@
 package com.dronze.blueweave.json;
 
 
-import com.dronze.tradestation.json.deserialize.GuavaTableDeserializer;
-import com.dronze.tradestation.json.deserialize.ModelTickerDeserializer;
-import com.dronze.tradestation.json.serialize.GuavaTableSerializer;
-import com.dronze.tradestation.json.serialize.TickerModelSerializer;
-import com.dronze.tradestation.model.Ticker;
+
+import com.dronze.blueweave.json.deserialize.GuavaTableDeserializer;
+import com.dronze.blueweave.json.serialize.GuavaTableSerializer;
 import com.google.common.collect.HashBasedTable;
 import com.google.common.collect.TreeBasedTable;
 import com.google.gson.Gson;
@@ -30,12 +28,9 @@ public class GsonFactory {
             gsonBuilder.setPrettyPrinting();
 
         switch (type){
-            case MODEL:
-                gsonBuilder.setDateFormat("yyyy-MM-dd");
-                gsonBuilder.registerTypeAdapter(Ticker.class, new TickerModelSerializer());
-                break;
             case DEFAULT:
             default:
+                gsonBuilder.setDateFormat("yyyy-MM-dd");
                 gsonBuilder.registerTypeAdapter(HashBasedTable.class, new GuavaTableSerializer());
                 gsonBuilder.registerTypeAdapter(TreeBasedTable.class, new GuavaTableSerializer());
                 break;
@@ -46,9 +41,6 @@ public class GsonFactory {
     protected static Gson makeDeserializerGson(Type type){
         GsonBuilder gsonBuilder = new GsonBuilder();
         switch (type){
-            case MODEL:
-                gsonBuilder.registerTypeAdapter(Ticker.class, new ModelTickerDeserializer());
-                break;
             case DEFAULT:
             default:
                 gsonBuilder.setDateFormat("yyyy-MM-dd");
