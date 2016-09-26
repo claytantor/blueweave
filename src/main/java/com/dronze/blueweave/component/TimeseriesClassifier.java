@@ -32,9 +32,9 @@ import java.util.*;
 /**
  * Created by claytongraham on 9/25/16.
  */
-public class SequenceClassifier {
+public class TimeseriesClassifier {
 
-    private static Logger log = LoggerFactory.getLogger(SequenceClassifier.class);
+    private static Logger log = LoggerFactory.getLogger(TimeseriesClassifier.class);
 
 
     DailyMeasureDataSetProvider dailyMeasureDataSetProvider;
