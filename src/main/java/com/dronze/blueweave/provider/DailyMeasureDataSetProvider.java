@@ -102,6 +102,12 @@ public class DailyMeasureDataSetProvider {
             seriesNames.put(i,sortedTickers.get(i));
         }
 
+        //label classes
+        final int[] numLabelClasses = {1};
+        if(trainingClassifiers != null && trainingClassifiers.size()>0){
+            numLabelClasses[0] = new HashSet<>(trainingClassifiers.values()).size();
+        }
+
         //make one list for data
         int[] labelindex = {0};
         List<Double> alldata = new ArrayList<Double>();
@@ -114,9 +120,13 @@ public class DailyMeasureDataSetProvider {
                 if(trainingClassifiers.get(ticker) !=null &&
                         trainingClassifiers != null &&
                         trainingClassifiers.keySet().size()>0){
-                    labels.put(labelindex[0],trainingClassifiers.get(ticker));
+                    for (int j = 0; j < numLabelClasses[0]; j++) {
+                        labels.put(labelindex[0], trainingClassifiers.get(ticker));
+                        labelindex[0]+=1;
+                    }
+
                 }
-                labelindex[0]+=1;
+
             }
 
         });
@@ -128,16 +138,16 @@ public class DailyMeasureDataSetProvider {
                         1,
                         commonDates.size()});
 
-        int numLabelClasses = 1;
-        if(trainingClassifiers != null && trainingClassifiers.size()>0){
-            numLabelClasses = new HashSet<>(trainingClassifiers.values()).size();
-        }
+
         float[] labelFloats = new float[labels.keySet().size()];
         for (int i = 0; i < labels.keySet().size() ; i++) {
             labelFloats[i] = labels.get(i).floatValue();
         }
+
         INDArray labelsArray = Nd4j.create(labelFloats, new int[]{
-                indicatorForDateRange.columnKeySet().size(),numLabelClasses,commonDates.size()});
+                indicatorForDateRange.columnKeySet().size(),
+                numLabelClasses[0],
+                commonDates.size()});
 
         DataSet ds = new DataSet(tickersArray, labelsArray);
 
@@ -176,7 +186,8 @@ public class DailyMeasureDataSetProvider {
     public DataSetIterator makeDataSetIterator(DataSet dataSet){
         List<DataSet> trainDataSetList = new ArrayList<>();
         trainDataSetList.add(dataSet);
-        return new ExistingDataSetIterator(trainDataSetList);
+        DataSetIterator dataSetIterator = new ExistingDataSetIterator(trainDataSetList);
+        return dataSetIterator;
     }
 
 

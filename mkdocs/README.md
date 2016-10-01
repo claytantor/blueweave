@@ -16,3 +16,9 @@ also:
 INFO    -  Cleaning site directory
 INFO    -  Building documentation to directory: /Users/claytongraham/data/github/claytantor/blueweave/docs
 ```
+
+## javadocs
+
+```
+$ ./gradlew javadoc
+```

@@ -3,6 +3,7 @@ package com.dronze.blueweave.json.deserialize;
 import com.dronze.blueweave.util.DateUtils;
 import com.google.common.collect.HashBasedTable;
 import com.google.common.collect.Table;
+import com.google.common.collect.TreeBasedTable;
 import com.google.gson.*;
 
 import java.lang.reflect.Type;
@@ -17,7 +18,7 @@ public class GuavaTableDeserializer implements JsonDeserializer<Table> {
     @Override
     public Table deserialize(JsonElement json, Type typeOfT, JsonDeserializationContext context) throws JsonParseException {
 
-        Table<Date, String, Double> table = HashBasedTable.create();
+        Table<Date, String, Double> table = TreeBasedTable.create();
 
         try {
 
