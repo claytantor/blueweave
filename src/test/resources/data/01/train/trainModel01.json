@@ -1,0 +1,22 @@
+{
+  "startDate":"2016-04-01",
+  "endDate":"2016-08-01",
+  "networkClasses":[
+    {"id":0, "name":"cyclic"},
+    {"id":1, "name":"upward-trend"},
+    {"id":2, "name":"downward-trend"},
+    {"id":3, "name":"upward-shift"},
+    {"id":4, "name":"downward-shift"}
+  ],
+  "networkClassifications":[
+    {"name":"PACW", "classId":0},
+    {"name":"PAG",  "classId":0},
+    {"name":"PAHC", "classId":4},
+    {"name":"PANW", "classId":2},
+    {"name":"PATK", "classId":3},
+    {"name":"PATR", "classId":3},
+    {"name":"PAY",  "classId":4},
+    {"name":"PAYC",  "classId":1},
+    {"name":"PAYX",  "classId":3}
+  ]
+}

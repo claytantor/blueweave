@@ -1,0 +1,33 @@
+{
+  "TimeseriesClassifierNetwork": {
+    "layers": [{
+      "number":0,
+      "type":"GravesLSTM",
+      "activation": "tanh",
+      "nIn": 1,
+      "nOut": 10
+    }, {
+      "number":1,
+      "type":"RnnOutputLayer",
+      "lossFunction": "MCXENT",
+      "activation": "softmax",
+      "nIn": 10,
+      "nOut": 5
+    }],
+    "optimizationAlgo": {
+      "type": "STOCHASTIC_GRADIENT_DESCENT",
+      "iterations": 1
+    },
+    "seed": 123,
+    "learningRate": 0.02,
+    "gradientNormalization": {
+      "threshold": 0.45,
+      "type": "ClipElementWiseAbsoluteValue"
+    },
+    "updater": {
+      "type": "NESTEROVS",
+      "momentum": 0.85
+    },
+    "weightInit": "XAVIER"
+  }
+}

@@ -73,7 +73,17 @@
     
         <li class="first-level active"><a href="#blueweave">Blueweave</a></li>
         
-            <li class="second-level"><a href="#core-api">Core API</a></li>
+            <li class="second-level"><a href="#overview">Overview</a></li>
+            
+        
+            <li class="second-level"><a href="#data-model-for-testing-and-training">Data Model For Testing and Training</a></li>
+            
+                <li class="third-level"><a href="#training-model">Training Model</a></li>
+            
+                <li class="third-level"><a href="#data-models">Data Models</a></li>
+            
+        
+            <li class="second-level"><a href="#configurations-with-typesafe">Configurations With Typesafe</a></li>
             
         
     
@@ -83,18 +93,210 @@
 
 <h1 id="blueweave">Blueweave</h1>
 <p>Blueweave is a Java framework for recurrent sequential deep learning networks using
- guava and deeplearning4j.</p>
+ guava and deeplearning4j.  <strong>bluewave</strong> is intended to simplify the configuration and 
+ use of neural networks.</p>
 <p><img alt="build_status" src="https://api.travis-ci.org/claytantor/blueweave.svg?branch=master" title="Master Build Status" /></p>
 <ul>
 <li><a href="./javadoc/">Java Docs</a> - The generated java docs.</li>
-<li><a href="./user-guide/basics/">Basics</a> - Your first API call, and the basic concepts behind the API.</li>
-<li><a href="./user-guide/core/">Core API</a> - Tickers and Historical Measures on indicators derived from fundamentals.</li>
 </ul>
-<h2 id="core-api">Core API</h2>
-<ul>
-<li><a href="./api/rest-tickers-v1/">Sequences</a> - Tickers represent companies available to get information on.</li>
-<li><a href="./api/rest-measures-v1/">Measures</a> - Measures are available recorded or derived values for a specific day.</li>
-</ul></div>
+<h2 id="overview">Overview</h2>
+<p><strong>blueweave</strong> uses a builder pattern to setup the netowrk:</p>
+<pre><code>//build the network
+ClassifierNetwork network = new TimeseriesClassifierNetwork.TimeseriesClassifierNetworkBuilder()
+        .setNetworkClasses(trainingModel.getNetworkClasses())
+        .setTrainClassifications(trainingModel.getNetworkClassifications())
+        .setTrainTable(trainingTable)
+        .setTestTable(testingTable)
+        .setConfig(conf,&quot;TimeseriesClassifierNetwork&quot;)
+        .build();
+
+//the classification results as a table        
+Table&lt;Integer, String, Object&gt; result = network.evaluate();        
+</code></pre>
+
+<h2 id="data-model-for-testing-and-training">Data Model For Testing and Training</h2>
+<p>Currently implementations are limited to 
+recurrent series, but more table types and network classifiers are intended. The data for both 
+trainging and testing can be represented.</p>
+<table>
+<thead>
+<tr>
+<th align="center">Date</th>
+<th align="center">Series1</th>
+<th align="center">Series1</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td align="center">2016-04-01</td>
+<td align="center">0.12</td>
+<td align="center">0.22</td>
+</tr>
+<tr>
+<td align="center">2016-04-02</td>
+<td align="center">0.23</td>
+<td align="center">0.12</td>
+</tr>
+<tr>
+<td align="center">2016-04-03</td>
+<td align="center">0.46</td>
+<td align="center">0.10</td>
+</tr>
+<tr>
+<td align="center">2016-04-04</td>
+<td align="center">0.51</td>
+<td align="center">0.10</td>
+</tr>
+<tr>
+<td align="center">2016-04-05</td>
+<td align="center">1.46</td>
+<td align="center">0.11</td>
+</tr>
+</tbody>
+</table>
+<h3 id="training-model">Training Model</h3>
+<p>The training model is used to define the mapping of each series to the possible classification 
+types that will be used to train the network. This is an example of training a network to classify
+a set of number series.</p>
+<pre><code>{
+  &quot;startDate&quot;:&quot;2016-04-01&quot;,
+  &quot;endDate&quot;:&quot;2016-08-01&quot;,
+  &quot;networkClasses&quot;:[
+    {&quot;id&quot;:0, &quot;name&quot;:&quot;cyclic&quot;},
+    {&quot;id&quot;:1, &quot;name&quot;:&quot;upward-trend&quot;},
+    {&quot;id&quot;:2, &quot;name&quot;:&quot;downward-trend&quot;},
+    {&quot;id&quot;:3, &quot;name&quot;:&quot;upward-shift&quot;},
+    {&quot;id&quot;:4, &quot;name&quot;:&quot;downward-shift&quot;}
+  ],
+  &quot;networkClassifications&quot;:[
+    {&quot;name&quot;:&quot;PACW&quot;, &quot;classId&quot;:0},
+    {&quot;name&quot;:&quot;PAG&quot;,  &quot;classId&quot;:0},
+    {&quot;name&quot;:&quot;PAHC&quot;, &quot;classId&quot;:4},
+    {&quot;name&quot;:&quot;PANW&quot;, &quot;classId&quot;:2},
+    {&quot;name&quot;:&quot;PATK&quot;, &quot;classId&quot;:3},
+    {&quot;name&quot;:&quot;PATR&quot;, &quot;classId&quot;:3},
+    {&quot;name&quot;:&quot;PAY&quot;,  &quot;classId&quot;:4},
+    {&quot;name&quot;:&quot;PAYC&quot;,  &quot;classId&quot;:1},
+    {&quot;name&quot;:&quot;PAYX&quot;,  &quot;classId&quot;:3}
+  ]
+}
+</code></pre>
+
+<p>And to deserialize that model for use by the builder:</p>
+<pre><code>//make the training model
+SequenceNetworkModel trainingModel = GsonFactory.fromJson(
+        IOUtils.toString(
+                TimeseriesClassifierTest.class.getResourceAsStream(&quot;/data/01/train/trainModel01.json&quot;), &quot;UTF-8&quot;),
+        SequenceNetworkModel.class, GsonFactory.Type.DEFAULT);
+</code></pre>
+
+<h3 id="data-models">Data Models</h3>
+<p>The data model for both training and testing is simple tables. An example of a serialized model 
+for training could be:</p>
+<pre><code>{
+  &quot;columns&quot;: [
+    &quot;DATE&quot;,
+    &quot;PACW&quot;,
+    &quot;PAG&quot;,
+    &quot;PAHC&quot;,
+    &quot;PANW&quot;,
+    &quot;PATK&quot;,
+    &quot;PAY&quot;,
+    &quot;PAYC&quot;,
+    &quot;PAYX&quot;
+  ],
+  &quot;data&quot;: [
+    [
+      &quot;2016-04-01&quot;,
+      37.07,
+      36.7,
+      27.39,
+      161.12,
+      45.92,
+      28.2,
+      35.43,
+      54.17
+    ],
+    [
+      &quot;2016-04-04&quot;,
+      37.11,
+      35.82,
+      27.29,
+      161.59,
+      45.37,
+      27.78,
+      35.8,
+      53.45
+    ],
+    [
+      &quot;2016-04-05&quot;,
+      36.25,
+      35.68,
+      26.66,
+      151.92,
+      46.05,
+      27.76,
+      34.43,
+      53.11
+    ],
+    [
+      &quot;2016-04-06&quot;,
+      36.76,
+      35.74,
+      27.26,
+      158.22,
+      46.64,
+      28.23,
+      35.52,
+      53.64
+    ]
+  ]
+}
+</code></pre>
+
+<p>And deserializing it is as simple as using the provided factory:</p>
+<pre><code>Table&lt;Date, String, Double&gt; trainingTable = GsonFactory.fromJson(
+    IOUtils.toString( TimeseriesClassifierTest.class.getResourceAsStream(
+               &quot;/data/01/train/trainTable01.json&quot;), &quot;UTF-8&quot;),
+    TreeBasedTable.class, GsonFactory.Type.DEFAULT);
+</code></pre>
+
+<h2 id="configurations-with-typesafe">Configurations With Typesafe</h2>
+<p><strong>blueweave</strong> uses typesafe to make setting up multi layer networks easier. </p>
+<pre><code>{
+  &quot;TimeseriesClassifierNetwork&quot;: {
+    &quot;layers&quot;: [{
+      &quot;number&quot;:0,
+      &quot;type&quot;:&quot;GravesLSTM&quot;,
+      &quot;activation&quot;: &quot;tanh&quot;,
+      &quot;nIn&quot;: 1,
+      &quot;nOut&quot;: 10
+    }, {
+      &quot;number&quot;:1,
+      &quot;type&quot;:&quot;RnnOutputLayer&quot;,
+      &quot;lossFunction&quot;: &quot;MCXENT&quot;,
+      &quot;activation&quot;: &quot;softmax&quot;,
+      &quot;nIn&quot;: 10,
+      &quot;nOut&quot;: 5
+    }],
+    &quot;optimizationAlgo&quot;: {
+      &quot;type&quot;: &quot;STOCHASTIC_GRADIENT_DESCENT&quot;,
+      &quot;iterations&quot;: 1
+    },
+    &quot;seed&quot;: 123,
+    &quot;learningRate&quot;: 0.02,
+    &quot;gradientNormalization&quot;: {
+      &quot;threshold&quot;: 0.45,
+      &quot;type&quot;: &quot;ClipElementWiseAbsoluteValue&quot;
+    },
+    &quot;updater&quot;: {
+      &quot;type&quot;: &quot;NESTEROVS&quot;,
+      &quot;momentum&quot;: 0.85
+    },
+    &quot;weightInit&quot;: &quot;XAVIER&quot;
+  }
+}
+</code></pre></div>
         
     </div>
 
@@ -147,5 +349,5 @@
 
 <!--
 MkDocs version : 0.15.3
-Build Date UTC : 2016-09-26 05:57:23.427251
+Build Date UTC : 2016-10-01 22:00:40.294830
 -->

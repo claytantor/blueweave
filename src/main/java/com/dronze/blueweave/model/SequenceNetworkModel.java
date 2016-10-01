@@ -35,13 +35,10 @@ import java.util.TreeMap;
 public class SequenceNetworkModel {
     List<NetworkClass> networkClasses;
     List<NetworkClassification> networkClassifications;
-    Table<Date,String,Double> sequenceData;
 
     public SequenceNetworkModel(){}
 
-    public SequenceNetworkModel(Table<Date,String,Double> sequenceData,
-                                List<NetworkClass> classes, List<NetworkClassification> classifications) {
-        this.sequenceData = sequenceData;
+    public SequenceNetworkModel(List<NetworkClass> classes, List<NetworkClassification> classifications) {
         this.networkClasses = classes;
         this.networkClassifications = classifications;
     }
@@ -62,14 +59,6 @@ public class SequenceNetworkModel {
         return map;
     }
 
-
-    public Table<Date, String, Double> getSequenceData() {
-        return sequenceData;
-    }
-
-    public void setSequenceData(Table<Date, String, Double> sequenceData) {
-        this.sequenceData = sequenceData;
-    }
 
     public List<NetworkClass> getNetworkClasses() {
         return networkClasses;
