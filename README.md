@@ -1,6 +1,8 @@
 # blueweave
 
 [![Join the chat at https://gitter.im/blueweave/Lobby](https://badges.gitter.im/blueweave/Lobby.svg)](https://gitter.im/blueweave/Lobby?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge)
+![build_status](https://api.travis-ci.org/claytantor/blueweave.svg?branch=master "Master Build Status")
+
 
 Guava Enabled Recurrent Sequence Classification Networks in Java. **bluewave** is intended to simplify 
 the configuration and use of neural networks.
