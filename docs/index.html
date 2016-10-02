@@ -18,6 +18,9 @@
     <link href="./css/cinder.css" rel="stylesheet">
     <link rel="stylesheet" href="./css/highlight.css">
 
+
+    <link href="./css/extra.css" rel="stylesheet">
+
     <!-- HTML5 shim and Respond.js IE8 support of HTML5 elements and media queries -->
     <!--[if lt IE 9]>
             <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
@@ -73,7 +76,10 @@
     
         <li class="first-level active"><a href="#blueweave">Blueweave</a></li>
         
-            <li class="second-level"><a href="#overview">Overview</a></li>
+            <li class="second-level"><a href="#building-the-network">Building The Network</a></li>
+            
+        
+            <li class="second-level"><a href="#configurations-with-typesafe">Configurations With Typesafe</a></li>
             
         
             <li class="second-level"><a href="#data-model-for-testing-and-training">Data Model For Testing and Training</a></li>
@@ -83,13 +89,16 @@
                 <li class="third-level"><a href="#data-models">Data Models</a></li>
             
         
-            <li class="second-level"><a href="#configurations-with-typesafe">Configurations With Typesafe</a></li>
-            
-        
     
     </ul>
 </div></div>
         <div class="col-md-9" role="main">
+
+<script>
+var node = document.createElement("div");
+node.innerHTML = '<a href="https://github.com/claytantor/blueweave"><img style="position: absolute; top: 50px; right: 0; border: 0;" src="https://camo.githubusercontent.com/365986a132ccd6a44c23a9169022c0b5c890c387/68747470733a2f2f73332e616d617a6f6e6177732e636f6d2f6769746875622f726962626f6e732f666f726b6d655f72696768745f7265645f6161303030302e706e67" alt="Fork me on GitHub" data-canonical-src="https://s3.amazonaws.com/github/ribbons/forkme_right_red_aa0000.png"></a>';
+document.getElementsByTagName('body')[0].appendChild(node);
+</script>
 
 <h1 id="blueweave">Blueweave</h1>
 <p>Blueweave is a Java framework for recurrent sequential deep learning networks using
@@ -99,9 +108,12 @@
 <ul>
 <li><a href="./javadoc/">Java Docs</a> - The generated java docs.</li>
 </ul>
-<h2 id="overview">Overview</h2>
+<h2 id="building-the-network">Building The Network</h2>
 <p><strong>blueweave</strong> uses a builder pattern to setup the netowrk:</p>
-<pre><code>//build the network
+<pre><code>//get the config from the classpath
+Config conf = ConfigFactory.load();
+
+//build the network
 ClassifierNetwork network = new TimeseriesClassifierNetwork.TimeseriesClassifierNetworkBuilder()
         .setNetworkClasses(trainingModel.getNetworkClasses())
         .setTrainClassifications(trainingModel.getNetworkClassifications())
@@ -114,6 +126,43 @@ ClassifierNetwork network = new TimeseriesClassifierNetwork.TimeseriesClassifier
 Table&lt;Integer, String, Object&gt; result = network.evaluate();        
 </code></pre>
 
+<h2 id="configurations-with-typesafe">Configurations With Typesafe</h2>
+<p><strong>blueweave</strong> uses typesafe to make setting up multi layer networks easier. </p>
+<pre><code>{
+  &quot;TimeseriesClassifierNetwork&quot;: {
+    &quot;layers&quot;: [{
+      &quot;number&quot;:0,
+      &quot;type&quot;:&quot;GravesLSTM&quot;,
+      &quot;activation&quot;: &quot;tanh&quot;,
+      &quot;nIn&quot;: 1,
+      &quot;nOut&quot;: 10
+    }, {
+      &quot;number&quot;:1,
+      &quot;type&quot;:&quot;RnnOutputLayer&quot;,
+      &quot;lossFunction&quot;: &quot;MCXENT&quot;,
+      &quot;activation&quot;: &quot;softmax&quot;,
+      &quot;nIn&quot;: 10,
+      &quot;nOut&quot;: 5
+    }],
+    &quot;optimizationAlgo&quot;: {
+      &quot;type&quot;: &quot;STOCHASTIC_GRADIENT_DESCENT&quot;,
+      &quot;iterations&quot;: 1
+    },
+    &quot;seed&quot;: 123,
+    &quot;learningRate&quot;: 0.02,
+    &quot;gradientNormalization&quot;: {
+      &quot;threshold&quot;: 0.45,
+      &quot;type&quot;: &quot;ClipElementWiseAbsoluteValue&quot;
+    },
+    &quot;updater&quot;: {
+      &quot;type&quot;: &quot;NESTEROVS&quot;,
+      &quot;momentum&quot;: 0.85
+    },
+    &quot;weightInit&quot;: &quot;XAVIER&quot;
+  }
+}
+</code></pre>
+
 <h2 id="data-model-for-testing-and-training">Data Model For Testing and Training</h2>
 <p>Currently implementations are limited to 
 recurrent series, but more table types and network classifiers are intended. The data for both 
@@ -121,36 +170,36 @@ trainging and testing can be represented.</p>
 <table>
 <thead>
 <tr>
-<th align="center">Date</th>
-<th align="center">Series1</th>
-<th align="center">Series1</th>
+<th>Date</th>
+<th>Series1</th>
+<th>Series1</th>
 </tr>
 </thead>
 <tbody>
 <tr>
-<td align="center">2016-04-01</td>
-<td align="center">0.12</td>
-<td align="center">0.22</td>
+<td>2016-04-01</td>
+<td>0.12</td>
+<td>0.22</td>
 </tr>
 <tr>
-<td align="center">2016-04-02</td>
-<td align="center">0.23</td>
-<td align="center">0.12</td>
+<td>2016-04-02</td>
+<td>0.23</td>
+<td>0.12</td>
 </tr>
 <tr>
-<td align="center">2016-04-03</td>
-<td align="center">0.46</td>
-<td align="center">0.10</td>
+<td>2016-04-03</td>
+<td>0.46</td>
+<td>0.10</td>
 </tr>
 <tr>
-<td align="center">2016-04-04</td>
-<td align="center">0.51</td>
-<td align="center">0.10</td>
+<td>2016-04-04</td>
+<td>0.51</td>
+<td>0.10</td>
 </tr>
 <tr>
-<td align="center">2016-04-05</td>
-<td align="center">1.46</td>
-<td align="center">0.11</td>
+<td>2016-04-05</td>
+<td>1.46</td>
+<td>0.11</td>
 </tr>
 </tbody>
 </table>
@@ -186,7 +235,7 @@ a set of number series.</p>
 <pre><code>//make the training model
 SequenceNetworkModel trainingModel = GsonFactory.fromJson(
         IOUtils.toString(
-                TimeseriesClassifierTest.class.getResourceAsStream(&quot;/data/01/train/trainModel01.json&quot;), &quot;UTF-8&quot;),
+           getClass().getResourceAsStream(&quot;/data/01/train/trainModel01.json&quot;), &quot;UTF-8&quot;),
         SequenceNetworkModel.class, GsonFactory.Type.DEFAULT);
 </code></pre>
 
@@ -256,46 +305,8 @@ for training could be:</p>
 
 <p>And deserializing it is as simple as using the provided factory:</p>
 <pre><code>Table&lt;Date, String, Double&gt; trainingTable = GsonFactory.fromJson(
-    IOUtils.toString( TimeseriesClassifierTest.class.getResourceAsStream(
-               &quot;/data/01/train/trainTable01.json&quot;), &quot;UTF-8&quot;),
+    IOUtils.toString(getClass().getResourceAsStream(&quot;/data/01/train/trainTable01.json&quot;), &quot;UTF-8&quot;),
     TreeBasedTable.class, GsonFactory.Type.DEFAULT);
-</code></pre>
-
-<h2 id="configurations-with-typesafe">Configurations With Typesafe</h2>
-<p><strong>blueweave</strong> uses typesafe to make setting up multi layer networks easier. </p>
-<pre><code>{
-  &quot;TimeseriesClassifierNetwork&quot;: {
-    &quot;layers&quot;: [{
-      &quot;number&quot;:0,
-      &quot;type&quot;:&quot;GravesLSTM&quot;,
-      &quot;activation&quot;: &quot;tanh&quot;,
-      &quot;nIn&quot;: 1,
-      &quot;nOut&quot;: 10
-    }, {
-      &quot;number&quot;:1,
-      &quot;type&quot;:&quot;RnnOutputLayer&quot;,
-      &quot;lossFunction&quot;: &quot;MCXENT&quot;,
-      &quot;activation&quot;: &quot;softmax&quot;,
-      &quot;nIn&quot;: 10,
-      &quot;nOut&quot;: 5
-    }],
-    &quot;optimizationAlgo&quot;: {
-      &quot;type&quot;: &quot;STOCHASTIC_GRADIENT_DESCENT&quot;,
-      &quot;iterations&quot;: 1
-    },
-    &quot;seed&quot;: 123,
-    &quot;learningRate&quot;: 0.02,
-    &quot;gradientNormalization&quot;: {
-      &quot;threshold&quot;: 0.45,
-      &quot;type&quot;: &quot;ClipElementWiseAbsoluteValue&quot;
-    },
-    &quot;updater&quot;: {
-      &quot;type&quot;: &quot;NESTEROVS&quot;,
-      &quot;momentum&quot;: 0.85
-    },
-    &quot;weightInit&quot;: &quot;XAVIER&quot;
-  }
-}
 </code></pre></div>
         
     </div>
@@ -349,5 +360,5 @@ for training could be:</p>
 
 <!--
 MkDocs version : 0.15.3
-Build Date UTC : 2016-10-01 22:00:40.294830
+Build Date UTC : 2016-10-02 00:19:38.098674
 -->
