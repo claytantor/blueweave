@@ -1,4 +1,5 @@
 site_name: Blueweave
+extra_css: [css/extra.css]
 site_dir: ../docs
 theme: cinder
 pages:
